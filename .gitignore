@@ -1,2 +1,5 @@
 # Dependencies
 node_modules/
+
+# Task 4 runtime SQLite database (recreated on startup)
+task4-model-router/data/
