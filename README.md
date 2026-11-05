@@ -17,6 +17,8 @@ Folders:
 
 Each task has a mock server so it can be tried without real API keys.
 
+The examples below are PowerShell. On macOS/Linux use plain `curl` instead, e.g.
+`curl -N http://localhost:8081/v1/chat/completions -d '{"stream":true,"messages":[]}'`.
 
 ## Task 1 - MCP server
 
@@ -38,16 +40,15 @@ Notes:
 - "Customer not found" is returned as a tool result with `isError`, since the request itself was valid.
 - Logs only go to stderr. I also redirect console.log to stderr in case a library prints something.
   There's a test that checks every line on stdout is valid JSON-RPC.
-- customer_id has to be `CUST-` + 5 digits. The doc says CUST-XXXXX so I assumed digits.
-- amount must be > 0, finite and max 2 decimals. reason is trimmed before checking the length.
-
+- `customer_id` has to be `CUST-` + 5 digits. The doc says CUST-XXXXX so I assumed digits.
+- `amount` must be > 0, finite and max 2 decimals. `reason` is trimmed before checking the length.
 
 ## Task 2 - MCP gateway
 
 ```
 npm run task2:mock      # downstream server on 9000
 npm run task2           # gateway on 8080
-npm run -s task2:token viewer     # prints a token (or "admin")
+npm run -s task2:token viewer   # or: admin
 ```
 
 Example (PowerShell):
@@ -66,7 +67,6 @@ Notes:
 - The user's token isn't forwarded downstream. The gateway sends `x-gateway-user` / `x-gateway-role` instead.
 - Allowed requests are piped through, so it also works if the downstream answers with SSE.
 - Batches work too: blocked calls get an error, the rest are forwarded together.
-
 
 ## Task 3 - PII redaction on the stream
 
@@ -91,7 +91,6 @@ Card numbers are checked with Luhn so other long numbers aren't redacted.
 
 Other things handled: one redactor per choice (n > 1), backpressure (waits for drain), and aborting the
 upstream request if the client disconnects.
-
 
 ## Task 4 - rate limiter and fallback
 
@@ -126,7 +125,6 @@ Fallback:
 
 Errors are always returned as `{ "error": { "type", "message", "request_id" } }`. Upstream error bodies and
 stack traces are only written to the logs and the `request_log` table.
-
 
 ## Not done / could be improved
 
