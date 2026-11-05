@@ -1,0 +1,30 @@
+{
+  "name": "ai-field-dev-assessment",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI Field Developer assessment: MCP server, MCP gateway, LLM streaming guardrail, LLM model router",
+  "type": "module",
+  "engines": {
+    "node": ">=23.6"
+  },
+  "scripts": {
+    "task1": "node task1-mcp-server/server.ts",
+    "task2:mock": "node task2-mcp-gateway/mock-mcp-server.ts",
+    "task2": "node task2-mcp-gateway/gateway.ts",
+    "task2:token": "node task2-mcp-gateway/mint-token.ts",
+    "task3:mock": "node task3-llm-guardrail/mock-llm.ts",
+    "task3": "node task3-llm-guardrail/gateway.ts",
+    "task4:mock": "node task4-model-router/mock-providers.ts",
+    "task4": "node task4-model-router/server.ts",
+    "typecheck": "tsc -p .",
+    "test": "node --test \"task*/**/*.test.ts\""
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  }
+}
